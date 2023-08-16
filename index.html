@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanchonete da DB</title>
+</head>
+<body>
+    <h1>Lanchonete da DB</h1>
+
+	<form>
+		<fieldset>
+			<legend>Itens</legend>
+			<label><input type="checkbox" id="cafe" name="item"  value="3.00 ">Café (R$ 3,00)</label><br>
+			<input type="checkbox" id="extraCafe" name="item" value="1.50" onclick="verifica(this)">
+			<label>Chantily (extra do Café) (R$ 1,50)</label><br>
+			
+
+			<label><input type="checkbox" name="item" value="6.20">Suco Natural (R$ 6,20)</label><br>
+			<label><input type="checkbox" id="sanduiche" name="item" value="6.50">Sanduíche (R$ 6,50)</label><br>
+			<label><input type="checkbox" id="extraSanduiche" name="item" value="2.00" onclick="verifica(this)">Queijo (extra do Sanduíche) (R$ 2,00)</label><br>
+			<label><input type="checkbox" name="item" value="9.50">Combo 1: 1 Suco e 1 Sanduíche (R$ 9,50)</label><br>
+			<label><input type="checkbox" name="item" value="7.50">Combo 2: 1 Café e 1 Sanduíche (R$ 7,50)</label><br>
+			
+			  
+
+		</fieldset>
+
+		<fieldset>
+			<legend>Forma de pagamento</legend>
+			<label><input type="radio" name="pagamento" value="dinheiro">Dinheiro</label><br>
+			<label><input type="radio" name="pagamento" value="debito">Débito</label><br>
+			<label><input type="radio" name="pagamento" value="credito">Crédito</label><br>
+		</fieldset>
+		
+		<input type="button" value="Calcular" onclick="calcularCompra()">
+
+
+	</form>
+    
+</body>
+<script>
+			
+    function calcularCompra() {
+        
+
+        var valorTotal = 0;
+        var itensSelecionados = document.getElementsByName("item");
+        var itensExtra = document.getElementsByName("extra");
+        var formaPagamento = document.getElementsByName("pagamento");
+        var pagamentoSelecionado = "";
+        
+       
+        for (var i = 0; i < formaPagamento.length; i++) {
+            if (formaPagamento[i].checked) {
+                pagamentoSelecionado = formaPagamento[i].value;
+            }
+        }
+
+        if (pagamentoSelecionado == "") {
+            alert("Forma de pagamento inválida!");
+            return;
+        }
+
+        
+
+        for (var i = 0; i < itensSelecionados.length; i++) {
+            if (itensSelecionados[i].checked) {
+                
+                valorTotal += parseFloat(itensSelecionados[i].value);
+                
+            }
+    
+        }
+         if (valorTotal == 0) {
+                alert("Quantidade inválida!");
+                return;
+            }
+
+        if (pagamentoSelecionado == "dinheiro") {
+                valorTotal *= 0.95;
+            } else if (pagamentoSelecionado == "credito") {
+                valorTotal *= 1.03;
+            }
+
+        alert("Valor total da compra: R$" + valorTotal.toFixed(2));
+    
+}
+   
+    function verifica(element){
+
+        if(element.id == "extraCafe" && !document.getElementById("cafe").checked){
+                element.checked = false;
+                alert("Você deve primeiro selecionar o cafe");
+
+        }else if(element.id == "extraSanduiche" && !document.getElementById("sanduiche").checked){
+                element.checked = false;
+                alert("Você deve primeiro selecionar o sanduiche");
+        }
+
+    }
+</script>
+</html>
